@@ -21,6 +21,14 @@ defmodule SurveyorWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+
+    live "/surveys", SurveyLive.Index, :index
+    live "/surveys/new", SurveyLive.Index, :new
+    live "/surveys/:id/edit", SurveyLive.Index, :edit
+
+    live "/surveys/:id", SurveyLive.Show, :show
+    live "/surveys/:id/show/edit", SurveyLive.Show, :edit
+
   end
 
   # Other scopes may use custom stacks.
