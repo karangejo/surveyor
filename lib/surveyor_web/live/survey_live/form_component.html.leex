@@ -6,17 +6,20 @@
   phx_change: "validate",
   phx_submit: "save" %>
 
-  <%= label f, :name %>
-  <%= text_input f, :name %>
+  <%= label f, :name, class: "input-text" %>
+  <%= text_input f, :name, class: "input-area" %>
   <%= error_tag f, :name %>
 
-  <%= label f, :question %>
-  <%= text_input f, :question %>
+  <%= label f, :question, class: "input-text" %>
+  <%= text_input f, :question, class: "input-area" %>
   <%= error_tag f, :question %>
 
-  <%= label f, :options %>
-  <%= multiple_select f, :options, ["Option 1": "option1", "Option 2": "option2"] %>
-  <%= error_tag f, :options %>
+  <%= label f, :options, class: "input-text" %>
+  <%= for option <- @options do %>
+    <p><%= option %></p>
+  <% end %>
+  <form>
+  </form>
 
   <%= submit "Save", phx_disable_with: "Saving..." %>
 </form>

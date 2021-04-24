@@ -1,4 +1,4 @@
-<h1>Register</h1>
+<h1 class="text-xl font-bold">Register</h1>
 
 <%= form_for @changeset, Routes.user_registration_path(@conn, :create), fn f -> %>
   <%= if @changeset.action do %>
@@ -7,12 +7,12 @@
     </div>
   <% end %>
 
-  <%= label f, :email %>
-  <%= email_input f, :email, required: true %>
+  <%= label f, :email, class: "input-text" %>
+  <%= email_input f, :email, required: true, class: "input-area" %>
   <%= error_tag f, :email %>
 
-  <%= label f, :password %>
-  <%= password_input f, :password, required: true %>
+  <%= label f, :password, class: "input-text" %>
+  <%= password_input f, :password, required: true, class: "input-area" %>
   <%= error_tag f, :password %>
 
   <div>

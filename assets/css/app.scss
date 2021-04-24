@@ -5,6 +5,29 @@
 
 @tailwind utilities;
 
+/* Tailwind components */
+
+@layer base {
+  a {
+    @apply underline text-blue-600 hover:text-blue-800; 
+  }
+  button {
+    @apply bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150;
+  }
+  body {
+    @apply ml-8 mr-8;
+  }
+}
+
+@layer components {
+  .input-text {
+    @apply font-bold;
+  }
+  .input-area {
+    @apply px-3 py-3 relative bg-white bg-white rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring w-full;
+  }
+}
+
 
 /* LiveView specific classes for your customizations */
 .phx-no-feedback.invalid-feedback,
@@ -90,6 +113,5 @@
 }
 .invalid-feedback {
   color: #a94442;
-  display: block;
   margin: -1rem 0 2rem;
 }

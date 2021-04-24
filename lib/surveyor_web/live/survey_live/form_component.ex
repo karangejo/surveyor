@@ -6,11 +6,18 @@ defmodule SurveyorWeb.SurveyLive.FormComponent do
   @impl true
   def update(%{survey: survey} = assigns, socket) do
     changeset = Surveys.change_survey(survey)
+    options = case assigns.action do
+      :edit ->
+        assigns.survey.options
+      :new ->
+        []
+    end
 
     {:ok,
      socket
      |> assign(assigns)
-     |> assign(:changeset, changeset)}
+     |> assign(:changeset, changeset)
+     |> assign(:options, options)}
   end
 
   @impl true
