@@ -3,10 +3,15 @@ defmodule SurveyorWeb.SurveyLive.Index do
 
   alias Surveyor.Surveys
   alias Surveyor.Surveys.Survey
+  alias Surveyor.Accounts
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :surveys, list_surveys())}
+  def mount(_params, %{"user_token" => user_token}, socket) do
+    user = Accounts.get_user_by_session_token(user_token)
+    {:ok,
+      socket
+      |> assign(:user_id, user.id)
+      |> assign(:surveys, list_surveys(user.id))}
   end
 
   @impl true
@@ -37,10 +42,10 @@ defmodule SurveyorWeb.SurveyLive.Index do
     survey = Surveys.get_survey!(id)
     {:ok, _} = Surveys.delete_survey(survey)
 
-    {:noreply, assign(socket, :surveys, list_surveys())}
+    {:noreply, assign(socket, :surveys, list_surveys(socket.assigns.user_id))}
   end
 
-  defp list_surveys do
-    Surveys.list_surveys()
+  defp list_surveys(user_id) do
+    Surveys.list_surveys_by_user_id(user_id)
   end
 end

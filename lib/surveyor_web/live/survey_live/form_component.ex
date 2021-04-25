@@ -61,11 +61,13 @@ defmodule SurveyorWeb.SurveyLive.FormComponent do
   end
 
   def handle_event("save", %{"survey" => survey_params}, socket) do
-    survey_params = Map.put(survey_params, "options",
-      socket.assigns.options
-      |> Enum.map(fn x -> {x, 0} end)
-      |> Enum.into(%{})
-    )
+    survey_params =
+      survey_params
+      |> Map.put("options",
+        socket.assigns.options
+        |> Enum.map(fn x -> {x, 0} end)
+        |> Enum.into(%{}))
+      |> Map.put("user_id", socket.assigns.user_id)
     IO.inspect(survey_params)
     save_survey(socket, socket.assigns.action, survey_params)
   end
@@ -90,7 +92,8 @@ defmodule SurveyorWeb.SurveyLive.FormComponent do
   end
 
   defp save_survey(socket, :new, survey_params) do
-    case Surveys.create_survey(survey_params) do
+    user = Surveyor.Accounts.get_user!(survey_params["user_id"])
+    case Surveys.create_survey(user, survey_params) do
       {:ok, _survey} ->
         {:noreply,
          socket

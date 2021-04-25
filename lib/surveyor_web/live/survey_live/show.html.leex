@@ -1,4 +1,3 @@
-<h1>Show Survey</h1>
 
 <%= if @live_action in [:edit] do %>
   <%= live_modal @socket, SurveyorWeb.SurveyLive.FormComponent,
@@ -9,24 +8,29 @@
     return_to: Routes.survey_show_path(@socket, :show, @survey) %>
 <% end %>
 
-<ul>
+  <div class="flex flex-col bg-gray-50 rounded shadow p-4">
+    <div class="flex flex-row justify-start">
+      <strong>Name:</strong>
+      <%= @survey.name %>
+    </div>
 
-  <li>
-    <strong>Name:</strong>
-    <%= @survey.name %>
-  </li>
+    <div class="flex flex-row justify-start">
+      <strong>Question:</strong>
+      <%= @survey.question %>
+    </div>
 
-  <li>
-    <strong>Question:</strong>
-    <%= @survey.question %>
-  </li>
+    <div class="flex flex-row justify-start">
+      <strong>Options:</strong>
+      <ul>
+        <%= for {key, value} <- @survey.options do %>
+          <li>
+            <%= key %> : <%= value %>
+          </li>
+        <% end%>
+      </ul>
+    </div>
+  </div>
 
-  <li>
-    <strong>Options:</strong>
-    <%= @survey.options %>
-  </li>
-
-</ul>
 
 <span><%= live_patch "Edit", to: Routes.survey_show_path(@socket, :edit, @survey), class: "button" %></span>
 <span><%= live_redirect "Back", to: Routes.survey_index_path(@socket, :index) %></span>
