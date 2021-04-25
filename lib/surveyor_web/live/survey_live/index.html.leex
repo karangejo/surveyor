@@ -24,7 +24,6 @@
       <tr id="survey-<%= survey.id %>">
         <td><%= survey.name %></td>
         <td><%= survey.question %></td>
-        <td><%= survey.options %></td>
 
         <td>
           <span><%= live_redirect "Show", to: Routes.survey_show_path(@socket, :show, survey) %></span>

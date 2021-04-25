@@ -15,11 +15,20 @@
   <%= error_tag f, :question %>
 
   <%= label f, :options, class: "input-text" %>
-  <%= for option <- @options do %>
-    <p><%= option %></p>
+
+  <ul>
+  <%= for {option, index} <- Enum.with_index(@options) do %>
+    <li>
+      <%= option %>
+      <a href="#" phx-click="delete-option" phx-target="<%= @myself %>" phx-value-index="<%= index %>">
+        del
+      </a>
+    </li>
   <% end %>
-  <form>
-  </form>
+  </ul>
+
+  <%= text_input f, :option, class: "input-area" %>
+  <button phx-click="add-current-option" phx-target="<%= @myself %>" type="button">Add Option</button>
 
   <%= submit "Save", phx_disable_with: "Saving..." %>
 </form>

@@ -9,6 +9,7 @@ defmodule SurveyorWeb.SurveyLive.FormComponent do
     options = case assigns.action do
       :edit ->
         assigns.survey.options
+        |> Map.keys()
       :new ->
         []
     end
@@ -17,24 +18,65 @@ defmodule SurveyorWeb.SurveyLive.FormComponent do
      socket
      |> assign(assigns)
      |> assign(:changeset, changeset)
+     |> assign(:current_option, "")
      |> assign(:options, options)}
   end
 
   @impl true
-  def handle_event("validate", %{"survey" => survey_params}, socket) do
+  def handle_event("delete-option", %{"index" => index}, socket) do
+    options = List.delete_at(socket.assigns.options, String.to_integer(index))
+    {:noreply,
+      socket
+      |> assign(:options, options)}
+  end
+
+  @impl true
+  def handle_event("add-current-option", _params, socket) do
+    options =
+      case socket.assigns.current_option do
+        "" ->
+         socket.assigns.options
+       current_option ->
+         [current_option | socket.assigns.options]
+      end
+
+    {:noreply,
+      socket
+      |> assign(:current_option, "")
+      |> assign(:options, options)}
+  end
+
+
+  @impl true
+  def handle_event("validate", %{"survey" => survey_params = %{"option" => current_option}}, socket) do
     changeset =
       socket.assigns.survey
       |> Surveys.change_survey(survey_params)
       |> Map.put(:action, :validate)
 
-    {:noreply, assign(socket, :changeset, changeset)}
+    {:noreply,
+      socket
+      |> assign(:current_option, current_option)
+      |> assign(:changeset, changeset)}
   end
 
   def handle_event("save", %{"survey" => survey_params}, socket) do
+    survey_params = Map.put(survey_params, "options",
+      socket.assigns.options
+      |> Enum.map(fn x -> {x, 0} end)
+      |> Enum.into(%{})
+    )
+    IO.inspect(survey_params)
     save_survey(socket, socket.assigns.action, survey_params)
   end
 
   defp save_survey(socket, :edit, survey_params) do
+    survey_params = Map.put(survey_params, "options",
+      socket.assigns.options
+      |> Enum.map(fn x -> {x, 0} end)
+      |> Enum.into(%{})
+    )
+
     case Surveys.update_survey(socket.assigns.survey, survey_params) do
       {:ok, _survey} ->
         {:noreply,

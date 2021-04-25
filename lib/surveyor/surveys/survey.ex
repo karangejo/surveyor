@@ -6,7 +6,7 @@ defmodule Surveyor.Surveys.Survey do
 
   schema "surveys" do
     field :name, :string
-    field :options, {:array, :string}
+    field :options, {:map, :integer}
     field :question, :string
     belongs_to :user, User
 
