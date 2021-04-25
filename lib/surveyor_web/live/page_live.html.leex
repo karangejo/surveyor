@@ -1,3 +1,13 @@
-<h1 class="bg-indigo-700">Page Live</h1>  <div x-data="{ isOpen: false }">
-<button @click=" isOpen = !isOpen">Toggle</button>
-<h1 x-show="isOpen">Some Content</h1></div>
+<%= for survey <- @surveys do %>
+  <div class="flex flex-col bg-gray-50 rounded shadow p-4">
+    <div class="flex flex-row justify-start">
+        <strong>Name:</strong>
+        <%= survey.name %>
+    </div>
+
+    <div class="flex flex-row justify-start">
+        <strong>Question:</strong>
+        <%= survey.question %>
+    </div>
+  </div>
+<% end %>
