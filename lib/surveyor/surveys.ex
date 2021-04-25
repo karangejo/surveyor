@@ -21,6 +21,14 @@ defmodule Surveyor.Surveys do
     Repo.all(Survey)
   end
 
+  def list_surveys_by_user_id(user_id) do
+    query = from s in Survey,
+            where: s.user_id == ^user_id,
+            select: s
+
+    Repo.all(query)
+  end
+
   @doc """
   Gets a single survey.
 
@@ -49,9 +57,10 @@ defmodule Surveyor.Surveys do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_survey(attrs \\ %{}) do
+  def create_survey(user, attrs \\ %{}) do
     %Survey{}
     |> Survey.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:user, user)
     |> Repo.insert()
   end
 
