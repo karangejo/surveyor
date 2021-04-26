@@ -45,6 +45,17 @@ defmodule Surveyor.Surveys do
   """
   def get_survey!(id), do: Repo.get!(Survey, id)
 
+  def get_survey_by_name!(survey_name) do
+    Repo.get_by!(Survey, name: survey_name)
+  end
+
+  def cast_vote(survey = %Survey{}, choosen_option) do
+    survey_options = Map.update!(survey.options, choosen_option, fn x -> x + 1 end)
+    survey
+    |> Survey.changeset(%{options: survey_options})
+    |> Repo.update()
+  end
+
   @doc """
   Creates a survey.
 
