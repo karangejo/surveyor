@@ -1,0 +1,32 @@
+  <div class="flex flex-col bg-gray-50 rounded shadow p-4">
+    <div class="m-2 flex flex-row justify-start">
+      <h1 class="text-xl font-bold"><%= @survey.name %></h1>
+    </div>
+
+    <div class="m-2 flex flex-row justify-start">
+      <strong>Question:</strong>
+      <%= @survey.question %>
+    </div>
+
+    <%= f = form_for :choose_option, "#", phx_submit: "vote" %>
+      <%= label f, :choose_an_option, class: "input-text" %>
+      <%= select f, :options, Map.keys(@survey.options), class: "input-area" %>
+      <%= submit "Cast Vote", phx_disable_with: "Voting..." %>
+    </form>
+  </div>
+
+  <div class="mt-2 flex flex-col bg-gray-50 rounded shadow p-4">
+    <div class="m-2 flex flex-row justify-start">
+      <h1 class="text-xl font-bold">Results</h1>
+    </div>
+    <div class="m-2 flex flex-row justify-start">
+        <ul>
+        <%= for {option, count} <- @survey.options do %>
+            <li>
+                <%= option %> : <%= count %>
+            </li>
+        <%= end %>
+        </ul>
+    </div>
+
+  </div>

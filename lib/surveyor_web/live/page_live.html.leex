@@ -9,5 +9,6 @@
         <strong>Question:</strong>
         <%= survey.question %>
     </div>
+    <span><%= live_redirect "Vote", to: Routes.vote_path(@socket, :index, survey.name) %></span>
   </div>
 <% end %>
