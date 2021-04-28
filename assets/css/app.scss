@@ -32,6 +32,11 @@ strong {
   padding-right: 20px;
 }
 
+.graph-container {
+  width: 95vw;
+  height: 85vh;
+}
+
 /* LiveView specific classes for your customizations */
 .phx-no-feedback.invalid-feedback,
 .phx-no-feedback .invalid-feedback {
