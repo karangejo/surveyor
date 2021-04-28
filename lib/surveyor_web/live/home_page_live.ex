@@ -1,4 +1,4 @@
-defmodule SurveyorWeb.PageLive do
+defmodule SurveyorWeb.HomePageLive do
   use SurveyorWeb, :live_view
 
   @impl true

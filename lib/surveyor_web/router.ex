@@ -20,9 +20,10 @@ defmodule SurveyorWeb.Router do
   scope "/", SurveyorWeb do
     pipe_through :browser
 
-    live "/", PageLive, :index
+    live "/", HomePageLive, :index
     get "/vote/:survey_name", VoteController, :index
     post "/vote/:survey_name/", VoteController, :cast_vote
+    live "/chart/:survey_name", VoteGraphLive, :index
   end
 
   # Other scopes may use custom stacks.
