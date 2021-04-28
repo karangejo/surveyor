@@ -1,4 +1,4 @@
-<h1>My Surveys</h1>
+<h1 class="text-xl font-bold text-center">My Surveys</h1>
 
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal @socket, SurveyorWeb.SurveyLive.FormComponent,
@@ -11,15 +11,16 @@
 <% end %>
 
     <%= for survey <- @surveys do %>
-      <div class="flex flex-row justify-around bg-gray-50 shadow rounded p-4">
+      <div class="mt-2 flex flex-row justify-around bg-gray-50 shadow rounded p-4">
         <h3><%= survey.name %></h3>
 
         <div>
-          <span><%= live_redirect "Show", to: Routes.survey_show_path(@socket, :show, survey) %></span>
+          <span><%= live_redirect "View", to: Routes.survey_show_path(@socket, :show, survey) %></span>
           <span><%= live_patch "Edit", to: Routes.survey_index_path(@socket, :edit, survey) %></span>
           <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: survey.id, data: [confirm: "Are you sure?"] %></span>
         </div>
       </div>
     <% end %>
-
-<span><%= live_patch "New Survey", to: Routes.survey_index_path(@socket, :new) %></span>
+<div class="mt-2 flex flex-row justify-center">
+  <span><%= live_patch "New Survey", to: Routes.survey_index_path(@socket, :new) %></span>
+</div>
