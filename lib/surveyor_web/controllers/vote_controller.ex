@@ -4,7 +4,7 @@ defmodule SurveyorWeb.VoteController do
   alias Surveyor.Surveys
 
   def index(conn, %{"survey_name" => survey_name}) do
-    {voted, voted} = voted_on_survey?(conn, survey_name)
+    {voted, conn} = voted_on_survey?(conn, survey_name)
 
     conn
     |> assign(:voted, voted)
@@ -19,8 +19,8 @@ defmodule SurveyorWeb.VoteController do
 
     conn
     |> vote_for(survey_name, choosen_option)
-    |> redirect(to: Routes.vote_graph_path(conn, :index, survey_name))
     |> put_flash(:info, "Thanks for voting!")
+    |> redirect(to: Routes.vote_graph_path(conn, :index, survey_name))
     |> halt()
   end
 
