@@ -17,6 +17,74 @@ import {Socket} from "phoenix"
 import topbar from "topbar"
 import {LiveSocket} from "phoenix_live_view"
 import Alpine from "alpinejs"
+import Chart from "chart.js/auto";
+
+let hooks = {};
+
+hooks.voteChart = {
+  mounted() {
+
+    var voteCtx = document.getElementById("voteChart").getContext("2d");
+    var voteChart = new Chart(voteCtx, {
+      type: 'bar',
+    data: {
+        labels: [],
+        datasets: [{
+            label: '# of Votes',
+            data: [],
+            borderWidth: 1,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)'
+          ],
+        }]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Title'
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                  stepSize: 1
+              }
+            }
+        }
+    }
+    });
+
+
+    this.handleEvent("chart-data", (data) => {
+      const labels = Object.keys(data.data)
+      const votes = Object.values(data.data)
+      
+      voteChart.data.datasets[0].data = votes;
+      voteChart.data.labels = labels;
+      voteChart.options.plugins.title.text = data.label
+      voteChart.update();
+
+    });
+
+  },
+};
+
+
 
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
@@ -26,7 +94,8 @@ let liveSocket = new LiveSocket("/live", Socket, {
         onBeforeElUpdated(from, to) {
           if (from.__x) { Alpine.clone(from.__x, to) }
         }
-      }
+      },
+    hooks
 })
 
 // Show progress bar on live navigation and form submits
