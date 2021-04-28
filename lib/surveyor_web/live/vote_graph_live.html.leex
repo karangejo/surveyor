@@ -1,0 +1,50 @@
+<div x-data="{tab: 'chart'}">
+
+  <div class="mt-2 mb-2 flex flex-row rounded shadow justify-around">
+    <div
+      class="cursor-pointer p-2 rounded w-1/2 text-center"
+      :class="{'bg-gray-50 font-bold border-2 boder-black': tab === 'results'}"
+      @click="tab = 'results'">
+        Results
+    </div>
+    <div
+      class="cursor-pointer p-2 rounded w-1/2 text-center"
+      :class="{'bg-gray-50 font-bold border-2 boder-black': tab === 'chart'}"
+      @click="tab = 'chart'">
+        Chart
+    </div>
+  </div>
+
+  <div x-show="tab === 'results'">
+    <div class="flex flex-col bg-gray-50 rounded shadow p-4">
+      <div class="m-2 flex flex-row justify-start">
+        <h1 class="text-xl font-bold"><%= @survey.name %></h1>
+      </div>
+      <div class="m-2 flex flex-row justify-start">
+        <strong>Question:</strong>
+        <%= @survey.question %>
+      </div>
+    </div>
+
+    <div class="mt-2 flex flex-col bg-gray-50 rounded shadow p-4">
+      <div class="m-2 flex flex-row justify-start">
+        <h1 class="text-xl font-bold">Results</h1>
+      </div>
+      <div class="m-2 flex flex-row justify-start">
+        <ul>
+          <%= for {option, count} <- @survey.options do %>
+            <li>
+                <%= option %> : <%= count %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div x-show="tab === 'chart'" class="graph-container" id="voteChartContainer" phx-hook="voteChart">
+        <canvas id="voteChart"></canvas>
+  </div>
+
+</div>
