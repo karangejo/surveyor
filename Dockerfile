@@ -2,7 +2,7 @@
 FROM elixir:latest
 
 RUN apt-get update && \
-  apt-get install -y postgresql-client
+  apt-get install -y postgresql-client gcc g++ make curl gnupg build-essential
 
 # Create app directory and copy the Elixir projects into it
 RUN mkdir /app
@@ -13,9 +13,7 @@ WORKDIR /app
 RUN mix local.hex --force
 
 # Install Node npm packages
-RUN apt-get update
-RUN apt-get -y install curl gnupg build-essential
-RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt-get -y install nodejs
 RUN cd assets && npm install
 
