@@ -21,6 +21,15 @@ import Chart from "chart.js/auto";
 
 let hooks = {};
 
+hooks.optionTextInput = {
+  mounted(){
+
+    this.handleEvent("clear-input", () => {
+      this.el.value = ""
+    })
+  }
+}
+
 hooks.voteChart = {
   mounted() {
 

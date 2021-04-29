@@ -42,6 +42,7 @@ defmodule SurveyorWeb.SurveyLive.FormComponent do
 
     {:noreply,
       socket
+      |> push_event("clear-input", %{})
       |> assign(:current_option, "")
       |> assign(:options, options)}
   end

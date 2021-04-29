@@ -4,7 +4,8 @@
   id: "survey-form",
   phx_target: @myself,
   phx_change: "validate",
-  phx_submit: "save" %>
+  phx_submit: "save",
+  onkeydown: "return event.key != 'Enter';"%>
 
   <%= label f, :name, class: "input-text" %>
   <%= text_input f, :name, class: "input-area" %>
@@ -31,7 +32,7 @@
   <% end %>
   </ul>
 
-  <%= text_input f, :option, class: "input-area", value: @current_option %>
+  <%= text_input f, :option, class: "input-area", value: @current_option, phx_target: @myself, phx_hook: "optionTextInput", phx_keydown: "add-current-option", phx_key: "Enter" %>
 
   <button phx-click="add-current-option" phx-target="<%= @myself %>" type="button">Add Option</button>
 
