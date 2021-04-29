@@ -68,6 +68,12 @@ defmodule Surveyor.Surveys do
       {:error, %Ecto.Changeset{}}
 
   """
+  def create_survey_no_user(attrs \\ %{}) do
+    %Survey{}
+    |> Survey.changeset(attrs)
+    |> Repo.insert()
+  end
+
   def create_survey(user, attrs \\ %{}) do
     %Survey{}
     |> Survey.changeset(attrs)
