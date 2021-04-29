@@ -2,7 +2,6 @@
 
 To start your Phoenix server:
 
-  * Install Node.js dependencies with `npm install` inside the `assets` directory
   * Build the containers with `docker-compose build`
   * Run the app with `docker-compose up`
 
